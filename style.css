@@ -533,8 +533,35 @@ body {
     margin-top: 25px;
 }
 
+.modal-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+}
+
 .modal-buttons .btn {
     flex: 1;
+    min-width: 120px;
+}
+
+.modal-buttons .btn-primary {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+}
+
+.modal-buttons .btn-primary:hover {
+    background: var(--primary-dark);
+}
+
+.modal-buttons .btn-secondary {
+    background: white;
+    color: var(--text-primary);
+    border: 2px solid var(--border-color);
+}
+
+.modal-buttons .btn-secondary:hover {
+    background: #f9fafb;
 }
 
 .form-group {

@@ -1,7 +1,4 @@
-// Используем бесплатные API без регистрации и ключей
-// Open-Meteo для погоды (полностью бесплатный, без ключа)
 const WEATHER_API_URL = 'https://api.open-meteo.com/v1/forecast';
-// Nominatim (OpenStreetMap) для геокодирования (полностью бесплатный, без ключа)
 const GEO_API_URL = 'https://nominatim.openstreetmap.org';
 
 const state = {
@@ -13,7 +10,6 @@ const state = {
 
 const weatherCache = {};
 
-// Список популярных городов России с координатами
 const popularCities = [
     { name: 'Москва', country: 'RU', lat: 55.7558, lon: 37.6173 },
     { name: 'Санкт-Петербург', country: 'RU', lat: 59.9343, lon: 30.3351 },
@@ -33,7 +29,6 @@ const popularCities = [
     { name: 'Волгоград', country: 'RU', lat: 48.708, lon: 44.5133 }
 ];
 
-// Коды погоды Open-Meteo в эмодзи
 const weatherEmojis = {
     0: '☀️',  1: '🌤️',  2: '⛅',  3: '☁️',
     45: '🌫️', 48: '🌫️',
@@ -44,7 +39,6 @@ const weatherEmojis = {
     95: '⛈️', 96: '⛈️', 99: '⛈️'
 };
 
-// Коды погоды в описания
 const weatherDescriptions = {
     0: 'Ясно', 1: 'Преимущественно ясно', 2: 'Переменная облачность',
     3: 'Пасмурно', 45: 'Туман', 48: 'Иней',
@@ -286,7 +280,6 @@ function requestGeolocation() {
 
 async function addCityByCoordinates(lat, lon, isCurrentLocation = false) {
     try {
-        // Используем Nominatim для обратного геокодирования
         const response = await fetch(
             `${GEO_API_URL}/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=ru&addressdetails=1`
         );
@@ -468,7 +461,6 @@ async function updateWeatherForCurrentCity() {
     }
 }
 
-// Получение данных о погоде через Open-Meteo API
 async function fetchWeatherData(city) {
     try {
         const url = `${WEATHER_API_URL}?latitude=${city.lat}&longitude=${city.lon}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,surface_pressure&daily=weather_code,temperature_2m_max,temperature_2m_min,wind_speed_10m_max,relative_humidity_2m_max&timezone=auto&forecast_days=3`;
@@ -486,7 +478,7 @@ async function fetchWeatherData(city) {
         return {
             current: {
                 temperature_2m: data.current.temperature_2m,
-                feels_like: data.current.temperature_2m, // Open-Meteo не предоставляет feels_like
+                feels_like: data.current.temperature_2m,
                 weather_code: data.current.weather_code,
                 description: weatherDescriptions[data.current.weather_code] || 'Неизвестно',
                 humidity: data.current.relative_humidity_2m,
@@ -505,7 +497,6 @@ function processForecastData(data) {
     const forecast = [];
     const daily = data.daily;
     
-    // Обрабатываем прогноз на 3 дня
     for (let i = 0; i < 3 && i < daily.time.length; i++) {
         const date = new Date(daily.time[i]);
         const code = daily.weather_code[i];
