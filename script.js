@@ -71,6 +71,7 @@ const elements = {
     forecastDays: document.getElementById('forecastDays'),
     refreshBtn: document.getElementById('refreshBtn'),
     addCityBtn: document.getElementById('addCityBtn'),
+    resetBtn: document.getElementById('resetBtn'),
     addCityModal: document.getElementById('addCityModal'),
     closeModalBtn: document.getElementById('closeModalBtn'),
     cityInput: document.getElementById('cityInput'),
@@ -122,6 +123,18 @@ function setupEventListeners() {
     
     elements.addCityBtn.addEventListener('click', () => {
         showAddCityModal();
+    });
+    
+    elements.resetBtn.addEventListener('click', () => {
+        if (confirm('Сбросить все данные и запросить геолокацию заново?')) {
+            localStorage.removeItem('weatherAppState');
+            state.cities = [];
+            state.currentCityIndex = 0;
+            weatherCache = {};
+            elements.locationPermissionModal.classList.remove('hidden');
+            updateCitiesList();
+            elements.weatherContent.classList.add('hidden');
+        }
     });
     
     elements.closeModalBtn.addEventListener('click', () => {
