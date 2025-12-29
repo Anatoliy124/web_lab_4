@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Прогноз погоды</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🌤️ Прогноз погоды</h1>
+            <div class="header-controls">
+                <button class="btn btn-primary" id="refreshBtn">
+                    <span>🔄</span>
+                    Обновить
+                </button>
+                <button class="btn btn-secondary" id="addCityBtn">
+                    <span>➕</span>
+                    Добавить город
+                </button>
+            </div>
+        </header>
+
+        <div class="cities-container">
+            <aside class="cities-list" id="citiesList">
+                <div class="empty-message">Добавьте город для отображения погоды</div>
+            </aside>
+
+            <main class="weather-container">
+                <div class="loading-state hidden" id="loadingState">
+                    <div class="spinner"></div>
+                    <p>Загрузка данных о погоде...</p>
+                </div>
+
+                <div class="error-state hidden" id="errorState">
+                    <span>⚠️</span>
+                    <p class="error-message" id="errorMessage"></p>
+                </div>
+
+                <div class="weather-content hidden" id="weatherContent">
+                    <div class="location-info">
+                        <h2 id="locationName">-</h2>
+                        <div class="date" id="currentDate">-</div>
+                    </div>
+
+                    <div class="current-weather">
+                        <div class="weather-main">
+                            <div class="temperature">
+                                <span id="currentTemp">-</span>
+                                <span class="temp-unit">°C</span>
+                            </div>
+                            <div class="weather-details">
+                                <div class="weather-icon" id="weatherIcon">🌤️</div>
+                                <div class="weather-description">
+                                    <p id="weatherDesc">-</p>
+                                    <p>Ощущается как <span id="feelsLikeTemp">-</span>°C</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="additional-info">
+                        <div class="info-item">
+                            <span>💨</span>
+                            <div>
+                                <strong>Ветер</strong>
+                                <div id="windSpeed">-</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span>💧</span>
+                            <div>
+                                <strong>Влажность</strong>
+                                <div id="humidity">-</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <span>📊</span>
+                            <div>
+                                <strong>Давление</strong>
+                                <div id="pressure">-</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="forecast-section">
+                        <h3>Прогноз на 3 дня</h3>
+                        <div class="forecast-days" id="forecastDays"></div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Модальное окно для добавления города -->
+    <div class="modal hidden" id="addCityModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Добавить город</h2>
+                <button class="close-btn" id="closeModalBtn">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="cityInput">Название города</label>
+                    <input 
+                        type="text" 
+                        id="cityInput" 
+                        placeholder="Введите название города"
+                        autocomplete="off"
+                    >
+                    <div class="suggestions-container" id="suggestionsContainer"></div>
+                    <div class="error-message hidden" id="cityError"></div>
+                </div>
+                <div class="modal-buttons">
+                    <button class="btn btn-primary" id="confirmAddCityBtn">Добавить</button>
+                    <button class="btn btn-secondary" id="cancelAddCityBtn">Отмена</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для запроса геолокации -->
+    <div class="modal" id="locationPermissionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Разрешить доступ к геолокации?</h2>
+            </div>
+            <div class="modal-body">
+                <p>Приложение может определить ваше местоположение для показа погоды в вашем городе.</p>
+                <div class="modal-buttons">
+                    <button class="btn btn-primary" id="allowLocationBtn">Разрешить</button>
+                    <button class="btn btn-secondary" id="denyLocationBtn">Отказать</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
