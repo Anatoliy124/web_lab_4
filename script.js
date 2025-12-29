@@ -130,7 +130,7 @@ function setupEventListeners() {
             localStorage.removeItem('weatherAppState');
             state.cities = [];
             state.currentCityIndex = 0;
-            weatherCache = {};
+            Object.keys(weatherCache).forEach(key => delete weatherCache[key]);
             elements.locationPermissionModal.classList.remove('hidden');
             updateCitiesList();
             elements.weatherContent.classList.add('hidden');
